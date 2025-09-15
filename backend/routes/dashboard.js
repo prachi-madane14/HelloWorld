@@ -16,11 +16,11 @@ router.get(
 
 // ✅ Learner Dashboard (only learner role can access)
 router.get(
-  "/learner",
-  authMiddleware(["learner"]),
+  "/Student",
+  authMiddleware(["Student"]),
   (req, res) => {
     res.json({
-      msg: "Welcome to Learner Dashboard",
+      msg: "Welcome to Student Dashboard",
       user: req.user,
     });
   }
