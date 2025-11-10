@@ -11,7 +11,8 @@ exports.getProgress = async (req, res) => {
       countriesExplored: user.countriesExplored || [],
       quizzesAttempted: user.quizzesAttempted || 0,
       aiChatsCompleted: user.aiChatsCompleted || 0,
-      badges: user.badges || []
+      badges: user.badges || [],
+      streakDays: user.streakDays
     });
   } catch (err) {
     res.status(500).json({ msg: "Server error", error: err.message });

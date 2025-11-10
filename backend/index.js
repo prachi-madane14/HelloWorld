@@ -23,7 +23,9 @@ app.use(cors());
 app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/dashboard", require("./routes/dashboard"));
 app.use("/api/student", require("./routes/studentRoutes"));
-
+app.use("/api/notebook", require("./routes/notebookRoutes"));
+app.use("/api/quiz", require("./routes/quizRoutes"));
+app.use("/api/pronunciation", require("./routes/pronunciationRoutes"));
 
 const PORT = process.env.PORT || 5003;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
