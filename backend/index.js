@@ -3,29 +3,27 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const connectDB = require("./config/db");
-const dashboardRoutes = require("./routes/dashboard");
 
+// Load environment variables
 dotenv.config();
-connectDB();
 
-require("dotenv").config();
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-});
+// Connect to MongoDB
+connectDB();
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 
+// ✅ ROUTES SETUP
+app.use("/api/auth", require("./routes/authRoutes")); // Register/Login
+app.use("/dashboard", require("./routes/dashboard")); // Common dashboard route
+app.use("/api/student", require("./routes/studentRoutes")); // Student progress etc.
+app.use("/api/notebook", require("./routes/notebookRoutes")); // Student notebook
+app.use("/api/quiz", require("./routes/quizRoutes")); // Quizzes
+app.use("/api/pronunciation", require("./routes/pronunciationRoutes")); // Pronunciation practice
+app.use("/api/badges", require("./routes/badgeRoutes")); // 🎖️ Badges
 
-// Routes
-app.use("/api/auth", require("./routes/authRoutes"));
-app.use("/dashboard", require("./routes/dashboard"));
-app.use("/api/student", require("./routes/studentRoutes"));
-app.use("/api/notebook", require("./routes/notebookRoutes"));
-app.use("/api/quiz", require("./routes/quizRoutes"));
-app.use("/api/pronunciation", require("./routes/pronunciationRoutes"));
 
+// ✅ START SERVER
 const PORT = process.env.PORT || 5003;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
