@@ -4,12 +4,12 @@ const { submitQuiz, getQuizHistory, getLeaderboard } = require("../controllers/q
 const authMiddleware = require("../middleware/authMiddleware");
 
 // Submit quiz result
-router.post("/submit", authMiddleware(["learner"]), submitQuiz);
+router.post("/submit", authMiddleware(["student"]), submitQuiz);
 
 // Get student quiz history
-router.get("/history", authMiddleware(["learner"]), getQuizHistory);
+router.get("/history", authMiddleware(["student"]), getQuizHistory);
 
 // Leaderboard (top students)
-router.get("/leaderboard", authMiddleware(["learner", "admin"]), getLeaderboard);
+router.get("/leaderboard", authMiddleware(["student", "teacher"]), getLeaderboard);
 
 module.exports = router;

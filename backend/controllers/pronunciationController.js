@@ -1,18 +1,34 @@
-// (You can later connect this to AI or speech API)
-exports.analyzePronunciation = async (req, res) => {
-  const { spokenPhrase, correctPhrase } = req.body;
+const Pronunciation = require("../models/Pronunciation");
+const User = require("../models/User");
 
-  // Simple mock check
-  const accuracy = Math.max(0, 100 - Math.abs(spokenPhrase.length - correctPhrase.length) * 10);
+// Submit pronunciation score
+exports.submitPronunciation = async (req, res) => {
+  try {
+    const { phrase, accuracy } = req.body;
 
-  res.json({
-    msg: "Pronunciation analyzed",
-    accuracy: `${accuracy}%`,
-    feedback:
-      accuracy > 80
-        ? "Excellent pronunciation!"
-        : accuracy > 50
-        ? "Good, but can improve!"
-        : "Keep practicing!"
-  });
+    const record = await Pronunciation.create({
+      user: req.user.id,
+      phrase,
+      accuracy,
+    });
+
+    // Update user XP based on accuracy
+    await User.findByIdAndUpdate(req.user.id, {
+      $inc: { xp: Math.round(accuracy / 10) } // Example: 80% → +8 XP
+    });
+
+    res.status(201).json({ msg: "Pronunciation saved", record });
+  } catch (err) {
+    res.status(500).json({ msg: "Error saving pronunciation", error: err.message });
+  }
+};
+
+// Get pronunciation history
+exports.getPronunciationHistory = async (req, res) => {
+  try {
+    const history = await Pronunciation.find({ user: req.user.id }).sort({ date: -1 });
+    res.json(history);
+  } catch (err) {
+    res.status(500).json({ msg: "Error fetching history", error: err.message });
+  }
 };

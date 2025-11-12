@@ -1,9 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const { analyzePronunciation } = require("../controllers/pronunciationController");
 const authMiddleware = require("../middleware/authMiddleware");
+const { submitPronunciation, getPronunciationHistory } = require("../controllers/pronunciationController");
 
-// Analyze student speech similarity
-router.post("/analyze", authMiddleware(["learner"]), analyzePronunciation);
+// Submit pronunciation score
+router.post("/submit", authMiddleware(["learner"]), submitPronunciation);
+
+// Get pronunciation history
+router.get("/history", authMiddleware(["learner"]), getPronunciationHistory);
 
 module.exports = router;

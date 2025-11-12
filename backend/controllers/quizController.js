@@ -28,7 +28,7 @@ exports.getQuizHistory = async (req, res) => {
 
 // Leaderboard
 exports.getLeaderboard = async (req, res) => {
-  const leaderboard = await User.find({ role: "learner" })
+  const leaderboard = await User.find({ role: "student" })
     .sort({ xp: -1 })
     .limit(10)
     .select("name xp");
