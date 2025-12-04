@@ -25,6 +25,7 @@ exports.getBadgeById = async (req, res) => {
 // 📍 Create a new badge
 exports.createBadge = async (req, res) => {
   try {
+    console.log("Request Body:", req.body);
     const badge = new Badge(req.body);
     await badge.save();
     res.status(201).json({ message: "Badge created successfully", badge });
