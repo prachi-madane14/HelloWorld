@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { submitQuiz, getQuizHistory, getLeaderboard } = require("../controllers/quizController");
-const authMiddleware = require("../middleware/authMiddleware");
+const authMiddleware = require("../middleware/studentauthMiddleware");
 
 // Submit quiz result
 router.post("/submit", authMiddleware(["student"]), submitQuiz);
