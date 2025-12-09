@@ -4,6 +4,8 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const connectDB = require("./config/db");
 const classRoutes = require("./routes/classRoutes");
+const progressRoutes = require("./routes/progressRoutes");
+
 
 // Load environment variables
 dotenv.config();
@@ -25,6 +27,7 @@ app.use("/api/quiz", require("./routes/quizRoutes")); // Quizzes
 app.use("/api/pronunciation", require("./routes/pronunciationRoutes")); // Pronunciation practice
 app.use("/api/badges", require("./routes/badgeRoutes")); // 🎖️ Badges
 app.use("/api/class", classRoutes);
+app.use("/api/progress", progressRoutes);
 
 // ✅ START SERVER
 const PORT = process.env.PORT || 5003;
