@@ -28,6 +28,8 @@ app.use("/api/pronunciation", require("./routes/pronunciationRoutes")); // Pronu
 app.use("/api/badges", require("./routes/badgeRoutes")); // 🎖️ Badges
 app.use("/api/class", classRoutes);
 app.use("/api/progress", progressRoutes);
+app.use("/api/tquiz", require("./routes/teacherQuizRoutes"));
+
 
 // ✅ START SERVER
 const PORT = process.env.PORT || 5003;
