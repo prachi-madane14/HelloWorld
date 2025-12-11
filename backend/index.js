@@ -29,6 +29,7 @@ app.use("/api/badges", require("./routes/badgeRoutes")); // 🎖️ Badges
 app.use("/api/class", classRoutes);
 app.use("/api/progress", progressRoutes);
 app.use("/api/tquiz", require("./routes/teacherQuizRoutes"));
+app.use("/api/tcontent", require("./routes/teacherContentRoutes"));
 
 
 // ✅ START SERVER
