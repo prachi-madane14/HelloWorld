@@ -30,6 +30,7 @@ app.use("/api/class", classRoutes);
 app.use("/api/progress", progressRoutes);
 app.use("/api/tquiz", require("./routes/teacherQuizRoutes"));
 app.use("/api/tcontent", require("./routes/teacherContentRoutes"));
+app.use("/api/analytics", require("./routes/analyticsRoutes"));
 
 
 // ✅ START SERVER
