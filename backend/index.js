@@ -31,6 +31,7 @@ app.use("/api/progress", progressRoutes);
 app.use("/api/tquiz", require("./routes/teacherQuizRoutes"));
 app.use("/api/tcontent", require("./routes/teacherContentRoutes"));
 app.use("/api/analytics", require("./routes/analyticsRoutes"));
+app.use("/api/chat", require("./routes/chatRoutes"));
 
 
 // ✅ START SERVER
