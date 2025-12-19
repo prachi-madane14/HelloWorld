@@ -9,7 +9,7 @@ const {
   deleteQuiz,
 } = require("../controllers/teacherQuizController");
 
-const teacherAuth = require("../middleware/teacherAuthMiddleware");
+const teacherAuth = require("../middleware/authMiddleware");
 
 // Create quiz
 router.post("/", teacherAuth, createQuiz);

@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const authMiddleware = require("../middleware/studentauthMiddleware");
+const authMiddleware = require("../middleware/authMiddleware");
 
 // ✅ Teacher Dashboard (only teacher role can access)
 router.get(

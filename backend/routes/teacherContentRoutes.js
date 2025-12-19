@@ -8,7 +8,7 @@ const {
   deleteContent
 } = require("../controllers/teacherContentController");
 
-const teacherAuth = require("../middleware/teacherAuthMiddleware");
+const teacherAuth = require("../middleware/authMiddleware");
 
 router.post("/", teacherAuth, createContent);
 
