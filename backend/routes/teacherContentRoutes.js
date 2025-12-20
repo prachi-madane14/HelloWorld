@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-
 const {
   createContent,
   getAllContent,
@@ -8,13 +7,18 @@ const {
   deleteContent
 } = require("../controllers/teacherContentController");
 
-const teacherAuth = require("../middleware/authMiddleware");
+const authMiddleware = require("../middleware/authMiddleware");
 
-router.post("/", teacherAuth, createContent);
+// Teacher uploads new content
+router.post("/", authMiddleware(["teacher"]), createContent);
 
-router.get("/", teacherAuth, getAllContent);  // or public for students
-router.get("/teacher", teacherAuth, getTeacherContent);
+// Get all content for students dashboard
+router.get("/", authMiddleware(["teacher", "student"]), getAllContent);
 
-router.delete("/:id", teacherAuth, deleteContent);
+// Get all content by a teacher
+router.get("/teacher", authMiddleware(["teacher"]), getTeacherContent);
+
+// Delete content
+router.delete("/:id", authMiddleware(["teacher"]), deleteContent);
 
 module.exports = router;
