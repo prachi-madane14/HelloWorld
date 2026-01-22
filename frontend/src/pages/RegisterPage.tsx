@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Globe, Eye, EyeOff, Loader2, GraduationCap, Users } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useToast } from '@/hooks/use-toast';
+import type { AxiosError } from 'axios';
 
 const RegisterPage = () => {
   const [name, setName] = useState('');
@@ -15,13 +16,14 @@ const RegisterPage = () => {
   const [role, setRole] = useState<'student' | 'teacher'>('student');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const { register, user } = useAuth();
+
+  const { register } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!name || !email || !password) {
       toast({
         title: 'Missing fields',
@@ -41,18 +43,37 @@ const RegisterPage = () => {
     }
 
     setIsLoading(true);
-    
+
     try {
-      await register({ name, email, password, role });
+      // 🔥 REGISTER USER
+      const response = await register({ name, email, password, role });
+
       toast({
         title: 'Account created!',
         description: 'Welcome to HelloWorld! 🌍',
       });
-    } catch (error: any) {
-      const message = error.response?.data?.message || 'Failed to create account.';
+
+      // 🔥 ROLE-BASED REDIRECT
+      if (response.user.role === 'teacher') {
+        navigate('/teacher', { replace: true });
+      } else {
+        navigate('/student', { replace: true });
+      }
+
+   } catch (error) {
+  const err = error as AxiosError<{ msg?: string; message?: string }>;
+
+  const message =
+    err.response?.data?.msg ||
+    err.response?.data?.message ||
+    'Failed to create account.';
+
+
       toast({
         title: 'Registration failed',
-        description: message.includes('exists') ? 'This email is already registered.' : message,
+        description: message.includes('exists')
+          ? 'This email is already registered.'
+          : message,
         variant: 'destructive',
       });
     } finally {
@@ -60,16 +81,9 @@ const RegisterPage = () => {
     }
   };
 
-  // Redirect if already logged in
-  if (user) {
-    const redirectPath = user.role === 'teacher' ? '/teacher' : '/student';
-    navigate(redirectPath, { replace: true });
-    return null;
-  }
-
   return (
     <div className="min-h-screen flex">
-      {/* Left side - Illustration */}
+      {/* Left Illustration */}
       <div className="hidden lg:flex flex-1 bg-gradient-to-br from-primary/10 via-accent/10 to-secondary/10 items-center justify-center p-8">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
@@ -87,7 +101,7 @@ const RegisterPage = () => {
         </motion.div>
       </div>
 
-      {/* Right side - Form */}
+      {/* Right Form */}
       <div className="flex-1 flex items-center justify-center p-8">
         <motion.div
           initial={{ opacity: 0, x: 30 }}
@@ -120,8 +134,11 @@ const RegisterPage = () => {
                   }`}
                 >
                   <GraduationCap className={`h-8 w-8 mx-auto mb-2 ${role === 'student' ? 'text-primary' : 'text-muted-foreground'}`} />
-                  <span className={`font-medium ${role === 'student' ? 'text-primary' : ''}`}>Student</span>
+                  <span className={`font-medium ${role === 'student' ? 'text-primary' : ''}`}>
+                    Student
+                  </span>
                 </button>
+
                 <button
                   type="button"
                   onClick={() => setRole('teacher')}
@@ -132,42 +149,43 @@ const RegisterPage = () => {
                   }`}
                 >
                   <Users className={`h-8 w-8 mx-auto mb-2 ${role === 'teacher' ? 'text-accent' : 'text-muted-foreground'}`} />
-                  <span className={`font-medium ${role === 'teacher' ? 'text-accent' : ''}`}>Teacher</span>
+                  <span className={`font-medium ${role === 'teacher' ? 'text-accent' : ''}`}>
+                    Teacher
+                  </span>
                 </button>
               </div>
             </div>
 
+            {/* Name */}
             <div className="space-y-2">
               <Label htmlFor="name">Full Name</Label>
               <Input
                 id="name"
-                type="text"
-                placeholder="John Doe"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 disabled={isLoading}
               />
             </div>
 
+            {/* Email */}
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
                 type="email"
-                placeholder="you@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 disabled={isLoading}
               />
             </div>
 
+            {/* Password */}
             <div className="space-y-2">
               <Label htmlFor="password">Password</Label>
               <div className="relative">
                 <Input
                   id="password"
                   type={showPassword ? 'text' : 'password'}
-                  placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   disabled={isLoading}
@@ -175,15 +193,14 @@ const RegisterPage = () => {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                  className="absolute right-3 top-1/2 -translate-y-1/2"
                 >
-                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                 </button>
               </div>
-              <p className="text-xs text-muted-foreground">Must be at least 6 characters</p>
             </div>
 
-            <Button type="submit" className="w-full" size="lg" disabled={isLoading}>
+            <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />

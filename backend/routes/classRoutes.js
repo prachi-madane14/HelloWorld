@@ -8,15 +8,15 @@ const {
 } = require("../controllers/classController");
 
 // Teacher creates class
-router.post("/create", createClass);
+router.post("/api/class/create", createClass);
 
 // Teacher gets all classes
-router.get("/teacher/:teacherId", getTeacherClasses);
+router.get("/api/class/teacher/:teacherId", getTeacherClasses);
 
 // Student joins class
-router.post("/join", joinClass);
+router.post("/api/class/join", joinClass);
 
 // Delete class
-router.delete("/:classId", deleteClass);
+router.delete("/api/class/:classId", deleteClass);
 
 module.exports = router;

@@ -11,10 +11,10 @@ const {
 
 // Example: /api/badges
 
-router.get("/", getAllBadges);
-router.get("/:id", getBadgeById);
-router.post("/", createBadge);
-router.put("/:id", updateBadge);
-router.delete("/:id", deleteBadge);
+router.get("/api/badges", getAllBadges);
+router.get("/api/badges/:id", getBadgeById);
+router.post("/api/badges", createBadge);
+router.put("/api/badges/:id", updateBadge);
+router.delete("/api/badges/:id", deleteBadge);
 
 module.exports = router;

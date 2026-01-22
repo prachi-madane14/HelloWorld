@@ -21,7 +21,7 @@ app.use(cors());
 app.use("/api/auth", require("./routes/studentauthRoutes")); // Register/Login
 app.use("/api/teacher", require("./routes/teacherAuthRoutes"));
 app.use("/dashboard", require("./routes/dashboard")); // Common dashboard route
-app.use("/api/student", require("./routes/studentRoutes")); // Student progress etc.
+app.use("/api/student", require("./routes/studentprogressRoutes")); // Student progress etc.
 app.use("/api/notebook", require("./routes/notebookRoutes")); // Student notebook
 app.use("/api/quiz", require("./routes/quizRoutes")); // Quizzes
 app.use("/api/badges", require("./routes/badgeRoutes")); // 🎖️ Badges

@@ -3,31 +3,46 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 // Register User
+// Register User (STUDENT)
 exports.register = async (req, res) => {
   try {
     const { name, email, password, role } = req.body;
 
-    // check if user exists
     let user = await User.findOne({ email });
     if (user) return res.status(400).json({ msg: "User already exists" });
 
-    // hash password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-    // create user
     user = await User.create({
       name,
       email,
       password: hashedPassword,
-      role
+      role: "student" // 🔒 force role
     });
 
-    res.status(201).json({ msg: "User registered successfully" });
+    // 🔥 CREATE TOKEN
+    const token = jwt.sign(
+      { id: user._id, role: "student" },
+      process.env.JWT_SECRET,
+      { expiresIn: "30d" }
+    );
+
+    // 🔥 RETURN TOKEN + ROLE
+    res.status(201).json({
+      token,
+      user: {
+        _id: user._id,
+        role: "student",
+        name: user.name,
+        email: user.email
+      }
+    });
+
   } catch (err) {
     res.status(500).json({ msg: "Server error", error: err.message });
   }
 };
+
 
 // Login User
 exports.login = async (req, res) => {

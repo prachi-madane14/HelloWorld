@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Base API configuration - update this URL to your backend
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5003';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -58,13 +58,13 @@ export const progressAPI = {
     api.get(`/api/progress/class/${classId}`),
   getStudentProgress: () => 
     api.get('/api/student/progress'),
-  updateStudentProgress: (data: any) => 
+  updateStudentProgress: (data: unknown) => 
     api.put('/api/student/progress', data),
 };
 
 // Teacher Quiz APIs
 export const teacherQuizAPI = {
-  create: (data: any) => 
+  create: (data: unknown) => 
     api.post('/api/tquiz', data),
   getAll: () => 
     api.get('/api/tquiz'),
@@ -78,7 +78,7 @@ export const teacherQuizAPI = {
 
 // Teacher Content APIs
 export const teacherContentAPI = {
-  create: (data: any) => 
+  create: (data: unknown) => 
     api.post('/api/tcontent', data),
   getAll: () => 
     api.get('/api/tcontent'),
@@ -130,7 +130,7 @@ export const notebookAPI = {
 
 // Quiz APIs (Student)
 export const quizAPI = {
-  submit: (data: any) => 
+  submit: (data: unknown) => 
     api.post('/api/quiz/submit', data),
   getHistory: () => 
     api.get('/api/quiz/history'),

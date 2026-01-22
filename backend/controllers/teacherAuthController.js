@@ -3,6 +3,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 // REGISTER TEACHER
+// REGISTER TEACHER
 exports.registerTeacher = async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -18,7 +19,24 @@ exports.registerTeacher = async (req, res) => {
       password: hashedPassword,
     });
 
-    res.status(201).json({ msg: "Teacher registered successfully" });
+    // 🔥 CREATE TOKEN
+    const token = jwt.sign(
+      { id: teacher._id, role: "teacher" },
+      process.env.JWT_SECRET,
+      { expiresIn: "30d" }
+    );
+
+    // 🔥 RETURN SAME STRUCTURE AS LOGIN
+    res.status(201).json({
+      token,
+      user: {
+        _id: teacher._id,
+        role: "teacher",
+        name: teacher.name,
+        email: teacher.email
+      }
+    });
+
   } catch (err) {
     res.status(500).json({ msg: "Server error", error: err.message });
   }

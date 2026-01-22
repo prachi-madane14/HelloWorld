@@ -4,12 +4,12 @@ const { saveNote, getNotes, deleteNote } = require("../controllers/notebookContr
 const authMiddleware = require("../middleware/authMiddleware");
 
 // Save new phrase
-router.post("/", authMiddleware(["student"]), saveNote);
+router.post("/api/notebook", authMiddleware(["student"]), saveNote);
 
 // Get all notes for student
-router.get("/", authMiddleware(["student"]), getNotes);
+router.get("/api/notebook", authMiddleware(["student"]), getNotes);
 
 // Delete a saved note
-router.delete("/:noteId", authMiddleware(["student"]), deleteNote);
+router.delete("/api/notebook/:noteId", authMiddleware(["student"]), deleteNote);
 
 module.exports = router;

@@ -15,38 +15,22 @@ const authMiddleware = require("../middleware/authMiddleware");
  * Teacher → feedback
  * Student → question
  */
-router.post(
-  "/",
-  authMiddleware(["teacher", "student"]),
-  sendMessage
-);
+router.post("/api/chat",authMiddleware(["teacher", "student"]),sendMessage);
 
 /**
  * 2️⃣ Get chat messages between teacher & student
  */
-router.get(
-  "/:teacherId/:studentId",
-  authMiddleware(["teacher", "student"]),
-  getChatMessages
-);
+router.get("/api/chat/:teacherId/:studentId",authMiddleware(["teacher", "student"]),getChatMessages);
 
 /**
  * 3️⃣ Delete a message (Teacher only)
  */
-router.delete(
-  "/:id",
-  authMiddleware(["teacher"]),
-  deleteMessage
-);
+router.delete("/api/chat/:id",authMiddleware(["teacher"]),deleteMessage);
 
 /**
  * 4️⃣ Mark messages as READ
  * Called when user opens chat
  */
-router.put(
-  "/read",
-  authMiddleware(["teacher", "student"]),
-  markMessagesAsRead
-);
+router.put("/api/chat/read",authMiddleware(["teacher", "student"]),markMessagesAsRead);
 
 module.exports = router;

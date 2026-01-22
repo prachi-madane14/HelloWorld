@@ -12,18 +12,18 @@ const {
 const teacherAuth = require("../middleware/authMiddleware");
 
 // Create quiz
-router.post("/", teacherAuth, createQuiz);
+router.post("/api/tquiz", teacherAuth, createQuiz);
 
 // Get all quizzes by teacher
-router.get("/", teacherAuth, getTeacherQuizzes);
+router.get("/api/tquiz", teacherAuth, getTeacherQuizzes);
 
 // Get quizzes for a specific class
-router.get("/class/:classId", teacherAuth, getClassQuizzes);
+router.get("/api/tquiz/class/:classId", teacherAuth, getClassQuizzes);
 
 // Get one quiz
-router.get("/:id", teacherAuth, getSingleQuiz);
+router.get("/api/tquiz/:id", teacherAuth, getSingleQuiz);
 
 // Delete quiz
-router.delete("/:id", teacherAuth, deleteQuiz);
+router.delete("/api/tquiz/:id", teacherAuth, deleteQuiz);
 
 module.exports = router;
