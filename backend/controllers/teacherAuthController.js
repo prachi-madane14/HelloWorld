@@ -60,9 +60,15 @@ exports.loginTeacher = async (req, res) => {
     );
 
     res.json({
-      token,
-      teacher: { id: teacher._id, name: teacher.name, email: teacher.email }
-    });
+  token,
+  user: {
+    _id: teacher._id,
+    name: teacher.name,
+    email: teacher.email,
+    role: "teacher"
+  }
+});
+
   } catch (err) {
     res.status(500).json({ msg: "Server error", error: err.message });
   }

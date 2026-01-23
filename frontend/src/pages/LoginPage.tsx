@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Globe, Eye, EyeOff, Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useToast } from '@/hooks/use-toast';
+import type { AxiosError } from "axios";
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -38,23 +39,33 @@ const LoginPage = () => {
         description: 'Successfully logged in.',
       });
       // Redirect based on role will happen via useEffect
-    } catch (error: any) {
-      toast({
-        title: 'Login failed',
-        description: error.response?.data?.message || 'Invalid email or password.',
-        variant: 'destructive',
-      });
-    } finally {
+    } catch (error: unknown) {
+  const err = error as AxiosError<{ msg?: string; message?: string }>;
+
+  toast({
+    title: "Login failed",
+    description:
+      err.response?.data?.msg ||
+      err.response?.data?.message ||
+      "Invalid email or password.",
+    variant: "destructive",
+  });
+}
+ finally {
       setIsLoading(false);
     }
   };
 
   // Redirect if already logged in
-  if (user) {
-    const redirectPath = user.role === 'teacher' ? '/teacher' : '/student';
-    navigate(redirectPath, { replace: true });
-    return null;
+useEffect(() => {
+  if (user?.role) {
+    navigate(
+      user.role === "teacher" ? "/teacher" : "/student",
+      { replace: true }
+    );
   }
+}, [user]);
+
 
   return (
     <div className="min-h-screen flex">
