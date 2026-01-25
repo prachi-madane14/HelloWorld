@@ -2,11 +2,14 @@ const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-// Register User
-// Register User (STUDENT)
+// Register User (STUDENT OR TEACHER via role)
 exports.register = async (req, res) => {
   try {
     const { name, email, password, role } = req.body;
+
+    if (!role || !["student", "teacher"].includes(role)) {
+      return res.status(400).json({ msg: "Invalid role" });
+    }
 
     let user = await User.findOne({ email });
     if (user) return res.status(400).json({ msg: "User already exists" });
@@ -17,22 +20,20 @@ exports.register = async (req, res) => {
       name,
       email,
       password: hashedPassword,
-      role: "student" // 🔒 force role
+      role // ✅ USE ROLE FROM FRONTEND
     });
 
-    // 🔥 CREATE TOKEN
     const token = jwt.sign(
-      { id: user._id, role: "student" },
+      { id: user._id, role: user.role },
       process.env.JWT_SECRET,
       { expiresIn: "30d" }
     );
 
-    // 🔥 RETURN TOKEN + ROLE
     res.status(201).json({
       token,
       user: {
         _id: user._id,
-        role: "student",
+        role: user.role,
         name: user.name,
         email: user.email
       }
