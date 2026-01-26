@@ -24,6 +24,11 @@ import TeacherChat from "./pages/teacher/TeacherChat";
 // Student
 import { StudentLayout } from "./components/layouts/StudentLayout";
 import StudentDashboard from "./pages/student/StudentDashboard";
+import StudentMap from "./pages/student/StudentMap";
+import StudentBadges from "./pages/student/StudentBadges";
+import StudentNotebook from "./pages/student/StudentNotebook";
+import StudentQuizzes from "./pages/student/StudentQuizzes";
+import StudentChat from "./pages/student/StudentChat";
 
 const queryClient = new QueryClient();
 
@@ -53,11 +58,11 @@ const App = () => (
             {/* Student Routes */}
             <Route path="/student" element={<ProtectedRoute allowedRoles={['student']}><StudentLayout /></ProtectedRoute>}>
               <Route index element={<StudentDashboard />} />
-              <Route path="map" element={<StudentDashboard />} />
-              <Route path="badges" element={<StudentDashboard />} />
-              <Route path="notebook" element={<StudentDashboard />} />
-              <Route path="quizzes" element={<StudentDashboard />} />
-              <Route path="chat" element={<StudentDashboard />} />
+              <Route path="map" element={<StudentMap />} />
+              <Route path="badges" element={<StudentBadges />} />
+              <Route path="notebook" element={<StudentNotebook />} />
+              <Route path="quizzes" element={<StudentQuizzes />} />
+              <Route path="chat" element={<StudentChat />} />
             </Route>
 
             <Route path="*" element={<NotFound />} />
