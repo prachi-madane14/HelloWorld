@@ -9,21 +9,21 @@ const {
   deleteQuiz,
 } = require("../controllers/teacherQuizController");
 
-const teacherAuth = require("../middleware/authMiddleware");
+const authMiddleware = require("../middleware/authMiddleware");
 
-// Create quiz
-router.post("/api/tquiz", teacherAuth, createQuiz);
+// ✅ CREATE QUIZ (Teacher)
+router.post("/", authMiddleware(["teacher"]), createQuiz);
 
-// Get all quizzes by teacher
-router.get("/api/tquiz", teacherAuth, getTeacherQuizzes);
+// ✅ GET ALL QUIZZES BY TEACHER
+router.get("/", authMiddleware(["teacher"]), getTeacherQuizzes);
 
-// Get quizzes for a specific class
-router.get("/api/tquiz/class/:classId", teacherAuth, getClassQuizzes);
+// ✅ GET QUIZZES FOR A CLASS (Student / Teacher)
+router.get("/class/:classId", authMiddleware(["student", "teacher"]), getClassQuizzes);
 
-// Get one quiz
-router.get("/api/tquiz/:id", teacherAuth, getSingleQuiz);
+// ✅ GET SINGLE QUIZ
+router.get("/:id", authMiddleware(["student", "teacher"]), getSingleQuiz);
 
-// Delete quiz
-router.delete("/api/tquiz/:id", teacherAuth, deleteQuiz);
+// ✅ DELETE QUIZ
+router.delete("/:id", authMiddleware(["teacher"]), deleteQuiz);
 
 module.exports = router;

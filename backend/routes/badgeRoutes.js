@@ -1,4 +1,3 @@
-// routes/badgeRoutes.js
 const express = require("express");
 const router = express.Router();
 const {
@@ -9,12 +8,14 @@ const {
   deleteBadge,
 } = require("../controllers/badgeController");
 
-// Example: /api/badges
+// FINAL PATHS:
+// /api/badges
+// /api/badges/:id
 
-router.get("/api/badges", getAllBadges);
-router.get("/api/badges/:id", getBadgeById);
-router.post("/api/badges", createBadge);
-router.put("/api/badges/:id", updateBadge);
-router.delete("/api/badges/:id", deleteBadge);
+router.get("/", getAllBadges);
+router.get("/:id", getBadgeById);
+router.post("/", createBadge);
+router.put("/:id", updateBadge);
+router.delete("/:id", deleteBadge);
 
 module.exports = router;
